@@ -1,23 +1,28 @@
 package br.cesul.store;
 
+import java.util.ArrayList;
+
 public class Sale {
 
-    private Product product;
-    private int amount;
+    private ArrayList<SaleItem> items;
     private double discount;
 
-    public Sale(Product product, int amount, double discount) {
-        this.product = product;
-        this.amount = amount;
+    public Sale(ArrayList<SaleItem> items, double discount) {
+        this.items = items;
         this.discount = discount;
     }
 
-    public Sale(Product product, int amount) {
-        this(product, amount, 0);
+    public Sale(ArrayList<SaleItem> items) {
+        this(items, 0);
     }
 
     public double getFinalPrice() {
-        double totalAmount = amount * product.getPrice();
-        return totalAmount * (1 - (totalAmount * discount / 100));
+        double totalAmount = 0;
+
+        for (SaleItem item : items) {
+            totalAmount += item.getTotal();
+        }
+
+        return totalAmount * (1 - (discount / 100));
     }
 }
